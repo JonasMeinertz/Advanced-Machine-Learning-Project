@@ -55,3 +55,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# data can be downloaded automatically by the scripts if needed
+*.pkl.gz
