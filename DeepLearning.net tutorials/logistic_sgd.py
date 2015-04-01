@@ -49,7 +49,7 @@ class LogisticRegression(object):
 
 def load_data(dataset):
 	print '... loading data'
-	f = gzip.open('../mnist.pkl.gz', 'rb')
+	f = gzip.open('mnist.pkl.gz', 'rb')
 	train_set, valid_set, test_set = cPickle.load(f)
 	f.close()
 
