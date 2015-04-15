@@ -12,7 +12,7 @@ from logistic_sgd import LogisticRegression
 from mlp import HiddenLayer
 from convolutional_mlp import LeNetConvPoolLayer
 
-def traintest(learning_rate=0.1, n_epochs=200, nkerns=[50, 50], batch_size=128):
+def traintest(learning_rate=0.03, n_epochs=200, nkerns=[50, 50], batch_size=128):
     rng = numpy.random.RandomState(5321)
 
     print '... loading text data'
@@ -131,8 +131,8 @@ def traintest(learning_rate=0.1, n_epochs=200, nkerns=[50, 50], batch_size=128):
         for minibatch_index in xrange(n_train_batches):
             iter = (epoch - 1) * n_train_batches + minibatch_index
 
-            #if iter % 100 == 0:
-            print 'training @ iter = ', iter
+            if iter % 100 == 0:
+                print 'training @ iter = ', iter
             train_model(minibatch_index)
 
             if (iter + 1) % validation_frequency == 0:
@@ -173,4 +173,4 @@ def traintest(learning_rate=0.1, n_epochs=200, nkerns=[50, 50], batch_size=128):
                           ' ran for %.2fm' % ((end_time - start_time) / 60.))
 
 if __name__ == "__main__":
-    traintest(n_epochs=5)
+    traintest()
