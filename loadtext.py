@@ -1,7 +1,5 @@
 import csv
 import numpy
-import theano
-from sys import getsizeof
 
 def load_text(length=1014, rng=numpy.random):
     alphabet = "abcdefghijklmnopqrstuvwxyz0123456789-,;.!?:'\"/\|_@#$%^&*~`+-=<>()[]{}"
