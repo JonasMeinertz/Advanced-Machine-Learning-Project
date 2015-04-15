@@ -58,3 +58,6 @@ target/
 
 # data can be downloaded automatically by the scripts if needed
 *.pkl.gz
+*.csv
+*.txt
+*.tar.gz
