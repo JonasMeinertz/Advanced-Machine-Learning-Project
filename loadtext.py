@@ -8,7 +8,7 @@ def load_text(length=1014, rng=numpy.random):
     alphabet = list(alphabet)
     permutation = rng.permutation(70000)
 
-    reader = csv.reader(open('Data/dbpedia_csv/test.csv', 'rb'))
+    reader = csv.reader(open('data/dbpedia_csv/test.csv', 'rb'))
     x = numpy.zeros([70000, length * 69], dtype=numpy.bool_)
     y = numpy.zeros([70000], dtype=numpy.int_)
 

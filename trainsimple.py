@@ -5,14 +5,13 @@ import time
 import os
 
 import sys
-sys.path.append('Data')
 from loadtext import load_text
-sys.path.append('../DeepLearning.net tutorials')
+sys.path.append('tutorials')
 from logistic_sgd import LogisticRegression
 from mlp import HiddenLayer
 from convolutional_mlp import LeNetConvPoolLayer
 
-def traintest(learning_rate=0.03, n_epochs=200, nkerns=[50, 50], batch_size=128):
+def train_simple(learning_rate=0.03, n_epochs=200, nkerns=[50, 50], batch_size=128):
     rng = numpy.random.RandomState(5321)
 
     print '... loading text data'
@@ -173,4 +172,4 @@ def traintest(learning_rate=0.03, n_epochs=200, nkerns=[50, 50], batch_size=128)
                           ' ran for %.2fm' % ((end_time - start_time) / 60.))
 
 if __name__ == "__main__":
-    traintest()
+    train_simple()
