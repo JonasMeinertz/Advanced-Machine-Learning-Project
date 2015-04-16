@@ -159,7 +159,7 @@ def train_simple(learning_rate=0.03, n_epochs=200, nkerns=[50, 50], batch_size=1
                            test_score * 100))
 
             if patience <= iter:
-                doen_loopint = True
+                done_looping = True
                 break
 
     end_time = time.clock()

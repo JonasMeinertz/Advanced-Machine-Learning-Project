@@ -195,7 +195,7 @@ def evaluate_lenet5(learning_rate=0.1, n_epochs=200, dataset='mnist.pkl.gz',
                            test_score * 100))
 
             if patience <= iter:
-                doen_loopint = True
+                done_looping = True
                 break
 
     end_time = time.clock()
