@@ -1,0 +1,9 @@
+# fill in your own information and save as mailconfig.py
+
+recipient = 'trigger@recipe.ifttt.com' # receiver email
+recipient_name = 'IFTTT' # receiver name
+sender = '' # your email
+sender_name = '' # your name
+host = 'smtp.example.com:587'
+username = '' # smtp username
+password = '' # smtp password
