@@ -61,3 +61,6 @@ target/
 *.csv
 *.txt
 *.tar.gz
+
+# we don't want our personal passwords in the repository
+mailconfig.py
