@@ -2,6 +2,7 @@ import lasagne
 from traintool import train_model
 from loadtext import load_text
 
+NAME = 'convolutional'
 BATCH_SIZE = 128
 
 # loading text data
@@ -42,4 +43,4 @@ layer3 = lasagne.layers.DenseLayer(
     nonlinearity = lasagne.nonlinearities.softmax
 )
 
-train_model(layer3, data, name="convolutional", batch_size=BATCH_SIZE)
+train_model(layer3, data, name=NAME, batch_size=BATCH_SIZE)
