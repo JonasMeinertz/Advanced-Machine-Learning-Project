@@ -119,7 +119,7 @@ def train_model(model_out, data, name, learning_rate_schedule={0: 0.01},
                     for i in test_losses:
                         (X_bat, y_bat) = get_batch(i, test_set_x, test_set_y)
                         test_losses[i], predictions = eval_model(X_bat, y_bat)
-                        for prediction, target in zip(predictions, test_set_y):
+                        for prediction, target in zip(predictions, y_bat):
                             confusion_matrix[target][prediction] += 1
                     test_score = 1-numpy.mean(test_losses)
 
