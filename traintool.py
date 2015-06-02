@@ -14,10 +14,10 @@ def train_model(model_out, data, name, learning_rate_schedule={0: 0.01},
                 batch_size=128, n_epochs=200):
     logname = datetime.datetime.now().strftime("%Y-%m-%d %H%M") + " - " + name
 
+    # prepare data
     train_set_x, train_set_y = data[0]
     valid_set_x, valid_set_y = data[1]
     test_set_x,  test_set_y  = data[2]
-
     n_train_batches = train_set_x.shape[0] / batch_size
     n_valid_batches = valid_set_x.shape[0] / batch_size
     n_test_batches  = test_set_x.shape[0] / batch_size
@@ -26,26 +26,31 @@ def train_model(model_out, data, name, learning_rate_schedule={0: 0.01},
     print "Total parameters: {}".format(
     sum([p.get_value().size for p in lasagne.layers.get_all_params(model_out)]))
 
-    objective = lasagne.objectives.Objective(model_out,
-        loss_function=lasagne.objectives.categorical_crossentropy)
-
+    # define symbolic inputs
     batch_index = T.iscalar('batch_index')
     X_batch = T.matrix('x')
     y_batch = T.ivector('y')
     batch_slice = slice(batch_index * batch_size, (batch_index + 1) * batch_size)
 
+    # learning rate as sared variable
     learning_rate = theano.shared(numpy.array(learning_rate_schedule[0],
                                   dtype=theano.config.floatX)
                                  )
 
+    # evaluate objective loss function
+    objective = lasagne.objectives.Objective(model_out,
+        loss_function=lasagne.objectives.categorical_crossentropy)
     loss_eval = objective.get_loss(X_batch, target=y_batch)
 
-    pred = T.argmax(model_out.get_output(X_batch), axis=1)
+    # evaluate predictions and accuracy
+    pred = T.argmax(lasagne.layers.get_output(model_out, X_batch, deterministic=True), axis=1)
     accuracy = T.mean(T.eq(pred, y_batch), dtype=theano.config.floatX)
 
+    # compute gradients
     all_params = lasagne.layers.get_all_params(model_out)
     updates = lasagne.updates.momentum(loss_eval, all_params, learning_rate)
 
+    # compile functions
     train_model = theano.function(
         [X_batch, y_batch],
         loss_eval,
@@ -59,6 +64,7 @@ def train_model(model_out, data, name, learning_rate_schedule={0: 0.01},
         allow_input_downcast=True
     )
 
+    # helper function to get a chunk of data
     def get_batch(index, set_x, set_y):
         X_bat = (set_x[index * batch_size : (index + 1) * batch_size]).todense()
         y_bat =  set_y[index * batch_size : (index + 1) * batch_size]
@@ -122,6 +128,7 @@ def train_model(model_out, data, name, learning_rate_schedule={0: 0.01},
                         for prediction, target in zip(predictions, y_bat):
                             confusion_matrix[target][prediction] += 1
                     test_score = 1-numpy.mean(test_losses)
+                    send_email(logname+' confusion', numpy.array_str(confusion_matrix))
 
                 upd = ', '.join([
                     str(time.clock() - start_time),
@@ -143,7 +150,6 @@ def train_model(model_out, data, name, learning_rate_schedule={0: 0.01},
     upd = 'training finished!'
     print upd
     send_email(logname, upd)
-    send_email(logname+' confusion', numpy.array_str(confusion_matrix))
 
     parameter_file = 'parameters/' + name + '.pkl'
     with open(parameter_file, 'w') as f:
