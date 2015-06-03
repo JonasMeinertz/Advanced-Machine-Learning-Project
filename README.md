@@ -1,18 +1,26 @@
 # Advanced Machine Learning Project
-Code, data, and results for our project in DTU course 02460 in Advanced Machine Learning
+Code for our project in DTU course 02460 in Advanced Machine Learning.
 
-So far we are learning to use Theano and trying to replicate the results from the paper [Text Understanding from Scratch](http://arxiv.org/abs/1502.01710) (by X. Zhang, and Y. LeCun). Their own implementation in Torch7 is called [Crepe](https://github.com/zhangxiangxiao/Crepe).
+By [Linards Kalnins](https://github.com/linardslinardslinards) and [Jonas Meinertz Hansen](https://github.com/JonasMeinertz)
 
-This is really a work in progress.
+## Contents of the repository
 
-## Our code
+Machinery:
+ - **loadtext.py** contains the function `load_text` which can load text from the .csv files that the datasets are provided in. It returns the text as a sparse numpy arrays with the text encoded as one-vs-all vectors and the labels as a regular numpy array.
+ - **smtpmail** Has a function, `send_email`, which can send emails through the SMTP protocol. This functionality is used by traintool.py to send emails with updates on training, which can be handled by services like IFTTT to do all kinds of awesome things like updating a file in your Dropbox with the newest results.
+ - **traintool.py** Contains a function, `train_model`, that takes care of the actual training of the model (which is mostly the same for all of them anyways.) It can change the learning rate on a schedule, send emails with updates on the training, and much more.
 
- - **loadtext.py** contains the function `load_text` which can load text from the .csv files that the datasets are provided in. It returns the data as numpy arrays with the text encoded as one-vs-all vectors.
- - **loadtextsparse.py** contains code for loading the text data represented using sparce matrices to save memory.
- - **trainsimple.py** builds and trains a very simple model, that is heavily based on the CNN described in [this deeplearning.net tutorial](http://deeplearning.net/tutorial/lenet.html). Due to memory constraints, this script uses only the training set (70000 samples) for training, validation and test.
- - **simplelasagne.py** is very similar to *trainsimple.py*, but uses ready made layers from [Lasagne](https://github.com/Lasagne/Lasagne) to build the network model. (achieves training error of 40.2%)
- - **simplelasagnesparse.py** trains the model from *simplelasagne.py* on the full dataset, which can be kept in memory due to the sparse representation from *loadtextsparse.py*.
- - files in **tutorials/** are almost identical to the files from the tutorials on DeepLearning.net but without the comments. If you are interested in them, you should look at the versions from [their own repository](https://github.com/lisa-lab/DeepLearningTutorials/tree/master/code) instead. We use the layers they define to build our own simple model in *trainsimple.py*
+Models for training:
+ - **train_demo.py** is for testing purposes, and is a good first model to try to see that everything works. It only uses the smaller test set for everything, so it loads much faster than the other models. It is also constrained to 5 epochs.
+ - **train_convolutional.py** is a network with 2 convolutional layers and 2 fully connected layers.
+ - **train_convolutional_v2.py** is mostly the same as *train_convolutional.py*, but it utilizes rectified activations and has a dropout layer.
+ - **train_full.py** should be the equivalent of the models from [1], but unfortunately we aren't able to run it due to having too little memory on the GPU we use.
+ - **train_LSTM.py** is for training a simple recurrent model with LSTM cells.
+
+## Notes for running scripts
+This code is made to be executed on cloud servers, and include a script to send emails with updates on training progress using the SMTP protocol. Before running the script you should either rename `mailconfig.py.blank` to `mailconfig.py` and fill in your own details or comment out all lines in `traintool.py` that use the function `send_email`.
+
+Before training a model make sure to make a folder called `parameters` to save the parameters to after training. To train e.g. the demo model simply run the script with: `python train_demo.py`
 
 ## Obtaining data
 
@@ -24,4 +32,4 @@ These scripts were developed and seem to work with Python
 
  - Theano 0.7.0
  - Numpy 1.9.2
- - [Lasagne](https://github.com/Lasagne/Lasagne) (newest version as of 2015-05-15)
+ - A recent version of [Lasagne](https://github.com/Lasagne/Lasagne). (In order to train the LSTM model, you'll need a version that has support for recurrent layers. We have been using [this fork](https://github.com/craffel/nntools/tree/recurrent) for development.)
