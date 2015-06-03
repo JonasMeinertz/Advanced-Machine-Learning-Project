@@ -72,6 +72,9 @@ def train_model(model_out, data, name, learning_rate_schedule={0: 0.01},
 
     print '... training the model'
 
+    # the actual training loop is mostly similar to the one described at
+    # http://deeplearning.net/tutorial/logreg.html#logreg
+    
     patience = 10000
     patience_increase = 1.5
     improvement_threshold = 0.995
