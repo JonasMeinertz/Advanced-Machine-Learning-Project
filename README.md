@@ -1,7 +1,7 @@
 # Advanced Machine Learning Project
 Code for our project in DTU course 02460 in Advanced Machine Learning.
 
-By [Linards Kalnins](https://github.com/linardslinardslinards) and [Jonas Meinertz Hansen](https://github.com/JonasMeinertz)
+By [Linards Kalnins](https://github.com/linardslinardslinards) and [Jonas Meinertz Hansen](https://github.com/Styrke)
 
 ## Contents of the repository
 
